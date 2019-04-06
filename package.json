@@ -1,0 +1,19 @@
+{
+  "name": "blocipedia-node",
+  "version": "1.0.0",
+  "description": "A web app for creating wikis using Node.js",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "export NODE_ENV=test && jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lindsayspencer/blocipedia-node.git"
+  },
+  "author": "Lindsay Spencer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lindsayspencer/blocipedia-node/issues"
+  },
+  "homepage": "https://github.com/lindsayspencer/blocipedia-node#readme"
+}
