@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ./partials/head %>
+  </head>
+  <body>
+
+      <% include ./partials/navbar %>
+
+      <main class="container">
+          <% include ./partials/messages.ejs %>
+        <header class="jumbotron my-4">
+          <h1 class="display-3">Blocipedia</h1>
+          <p class="lead">Create & Collaborate with Wikis in Markdown</p>
+          
+            <a href="/users/signup" class="btn btn-primary btn-lg">Sign up</a>
+          
+        </header>
+
+        <!-- Page Features -->
+        <section class="row text-center">
+
+          <section class="col-lg-8">
+            <h4 class="card-title">Free Plan</h4>
+            <p class="card-text">Unlimited public wikis</p>
+          </section>
+
+
+          <section class="col-lg-8">
+            <h4 class="card-title">Paid Plan</h4>
+            <p class="card-text">Public and private wikis</p>
+          </section>
+
+        </section>
+        <!-- /.row -->
+
+      </main>
+      <!-- /.container -->
+      <% include ./partials/baseScripts %>
+      
+    </body>
+</html>
