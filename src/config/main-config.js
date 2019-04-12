@@ -27,5 +27,10 @@ module.exports = {
     //   cookie: { maxAge: 1.21e+9}
     // }));
     app.use(flash());
+    passportConfig.init(app);
+    app.use((req,res,next) => {
+      res.locals.currentUser = req.user;
+      next();
+    })
   }
 };

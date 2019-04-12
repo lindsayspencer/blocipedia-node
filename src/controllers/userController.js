@@ -1,7 +1,9 @@
 const userQueries = require("../db/queries.users.js");
 const passport = require("passport");
+// using SendGrid's v3 Node.js Library
+// https://github.com/sendgrid/sendgrid-nodejs
 const sgMail = require("@sendgrid/mail");
-//sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 module.exports = {
   signUp(req, res, next) {
@@ -15,10 +17,11 @@ module.exports = {
       passwordConfirmation: req.body.password_conf
     };
     const msg = {
-      to: req.body.email,
+      to: newUser.email,
       from: "lavendarlindsay@gmail.com",
       subject: "Thanks for Joining the Blocipedia Fam!",
-      text: "Have fun creating unlimited public wikis in Markdown or plain text."
+      text: "Have fun creating unlimited public wikis in Markdown or plain text.",
+      html: '<strong>and easy to do anywhere, even with Node.js</strong>'
     };
     userQueries.createUser(newUser, (err, user) => {
       if (err) {
@@ -28,14 +31,13 @@ module.exports = {
         passport.authenticate("local")(req, res, () => {
           req.flash("notice", "You've successfully signed in!");
           res.redirect("/");
-        });
+        })
       }
-      // using SendGrid's v3 Node.js Library
-      // https://github.com/sendgrid/sendgrid-nodejs
-      
-      // sgMail.send(msg).catch(err => {
-      //   console.log(err);
-      // });
     });
+    
+      sgMail.send(msg)
+        .catch((err) => {
+            console.log(err)
+        });
   }
 };
