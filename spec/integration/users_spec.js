@@ -5,14 +5,13 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const User = require("../../src/db/models").User;
 
 describe("routes : users", () => {
-    beforeEach(done => {
-        User
+    afterEach(done => {
+        sequelize
           .sync({ force: true })
           .then(() => {
             done();
           })
           .catch(err => {
-            //console.log(err);
             done();
           });
       });
@@ -24,15 +23,14 @@ describe("routes : users", () => {
             password: "qweqwe"
         })
           .then(user => {
-            //console.log(user)
+            console.log('testing...')
             expect(user).not.toBeNull();
             expect(user.email).toBe("email@email.com");
             expect(user.id).toBe(1);
             done();
           })
           .catch(err => {
-            //console.log(err);
-            return err;
+            console.log(err);
             done();
           });
       });

@@ -11,7 +11,7 @@
     "password": null,
     "database": "blocipedia-test",
     "host": "127.0.0.1",
-    "logging": "false",
+    "logging": false,
     "dialect": "postgres",
     "operatorsAliases": "false"
   },
