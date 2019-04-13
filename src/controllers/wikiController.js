@@ -32,6 +32,15 @@ module.exports = {
             }
         });
     },
+    all(req, res, next){
+        wikiQueries.getAllWikis((err, wikis) => {
+            if(err){
+                res.redirect(500, 'static/index');
+            } else {
+                res.render('wikis/all', { wikis });
+            }
+        })
+    },
     destroy(req, res, next){
         wikiQueries.deleteWiki(req.params.id, (err, deletedRecordsCount) =>{
             if(err){

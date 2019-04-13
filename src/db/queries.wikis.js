@@ -22,6 +22,15 @@ module.exports = {
             callback(err);
         }) 
     },
+    getAllWikis(callback){
+        return Wiki.findAll()
+        .then(wikis => {
+            callback(null, wikis);
+        })
+        .catch(err => {
+            callback(err);
+        });
+    },
     deleteWiki(id, callback){
         return Wiki.destroy({
             where: { id }
