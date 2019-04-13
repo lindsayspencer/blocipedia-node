@@ -10,5 +10,16 @@ module.exports = {
         .catch(err => {
             callback(err);
         });
+    },
+    getWiki(id, callback){
+        return Wiki.findOne({
+            where: { id: id }
+        })
+        .then(wiki => {
+            callback(null, wiki);
+        })
+        .catch(err => {
+            callback(err);
+        }) 
     }
 }
