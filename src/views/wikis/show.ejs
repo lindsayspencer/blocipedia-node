@@ -10,7 +10,14 @@
       <% include ../static/partials/messages.ejs %>
       <a href="/wikis" class="btn btn-primary">Back to All</a>
       <h1><%= wiki.title %></h1>
-      <p class="text-muted"><%= wiki.userId %></p>
+      <p class="text-muted">User ID <%= wiki.userId %>, 
+      <% if(wiki.private == false) { %>
+        public wiki 
+      <% } else { %>
+        private wiki
+      <% } %>
+      
+      </p>
       <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning">Edit</a>
       <p><%= wiki.body %></p>
 
