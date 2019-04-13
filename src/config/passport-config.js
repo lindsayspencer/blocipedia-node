@@ -10,12 +10,12 @@ module.exports = {
 
     passport.use(
       new LocalStrategy(
-        {
-          usernameField: "username"
-        },
-        (email, password, done) => {
+        // {
+        //   usernameField: "username"
+        // },
+        (username, password, done) => {
           User.findOne({
-            where: { username }
+            where: { username: username }
           }).then(user => {
             if (!user || !authHelper.comparePass(password, user.password)) {
               return done(null, false, {
@@ -34,7 +34,10 @@ module.exports = {
     });
 
     passport.deserializeUser((id, callback) => {
-      User.findById(id)
+      //User.findById(id)
+      User.findOne({
+        where: { id: id }
+      })
         .then(user => {
           callback(null, user);
         })

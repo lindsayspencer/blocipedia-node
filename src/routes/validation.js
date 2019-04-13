@@ -1,7 +1,7 @@
 const User = require("../db/models").User;
 
 module.exports = {
-  validateUsers(req, res, next) {
+  validateCreateUser(req, res, next) {
     if (req.method === "POST") {
       req.checkBody("email", "must be valid").isEmail();
       req
