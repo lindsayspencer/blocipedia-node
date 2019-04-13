@@ -49,5 +49,23 @@ module.exports = {
                 res.redirect(303, '/');
             }
         });
+    },
+    edit(req, res, next){
+        wikiQueries.getWiki(req.params.id, (err, wiki) => {
+            if(err || !wiki) {
+                res.redirect(404, '/');
+            } else {
+                res.render('wikis/edit', { wiki });
+            }
+        });
+    },
+    update(req, res, next){
+        wikiQueries.updateWiki(req.params.id, req.body, (err, wiki) => {
+            if (err || !wiki){
+                res.redirect(404, `/wikis/${req.params.id}/edit`);
+            } else {
+                res.redirect(`/wikis/${req.params.id}`);
+            }
+        })
     }
 }
