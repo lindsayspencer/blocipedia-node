@@ -31,5 +31,14 @@ module.exports = {
                 res.render("wikis/show", { wiki });
             }
         });
+    },
+    destroy(req, res, next){
+        wikiQueries.deleteWiki(req.params.id, (err, deletedRecordsCount) =>{
+            if(err){
+                res.redirect(500, `/wikis/${req.params.id}`);
+            } else {
+                res.redirect(303, '/');
+            }
+        });
     }
 }
