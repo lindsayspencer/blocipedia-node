@@ -1,9 +1,9 @@
 const User = require("../db/models").User;
 
 module.exports = {
-  validateCreateUser(req, res, next) {
+  validateUsers(req, res, next) {
     if (req.method === "POST") {
-      req.checkBody("email", "must be valid").isEmail();
+      req.checkBody("username", "cannot be empty").isLength({ min: 2 });
       req
         .checkBody("password", "must be at least 6 characters in length")
         .isLength({ min: 6 });
@@ -35,5 +35,8 @@ module.exports = {
     // } else {
     //   return next();
     // }
+  },
+  validateSignIn(req, res, next){
+
   }
 };
