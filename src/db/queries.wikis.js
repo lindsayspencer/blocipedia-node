@@ -23,7 +23,9 @@ module.exports = {
       });
   },
   getAllWikis(callback) {
-    return Wiki.findAll()
+    return Wiki.findAll({
+      order: [['title', 'ASC']]
+    })
       .then(wikis => {
         callback(null, wikis);
       })

@@ -16,8 +16,7 @@
       <% } else { %>
         private wiki
       <% } %>
-      
-      </p>
+      <br />Last updated <%= wiki.updatedAt %></p>
       <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning">Edit</a>
       <p><%= wiki.body %></p>
 
