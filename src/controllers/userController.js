@@ -1,9 +1,11 @@
+require('dotenv');
 const userQueries = require("../db/queries.users.js");
 const passport = require("passport");
 // using SendGrid's v3 Node.js Library
 // https://github.com/sendgrid/sendgrid-nodejs
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+console.log('key', process.env.SENDGRID_API_KEY);
 
 module.exports = {
   signUp(req, res, next) {
@@ -20,8 +22,8 @@ module.exports = {
       to: newUser.email,
       from: "lavendarlindsay@gmail.com",
       subject: "Thanks for Joining the Blocipedia Fam!",
-      text: "Have fun creating unlimited public wikis in Markdown or plain text.",
-      html: '<strong>and easy to do anywhere, even with Node.js</strong>'
+      text: ":)",
+      html: '<p>Have fun creating unlimited public wikis in Markdown or plain text. <br /><strong>@lindscatspencer</strong></p>'
     };
     userQueries.createUser(newUser, (err, user) => {
       if (err) {
@@ -35,16 +37,17 @@ module.exports = {
       }
     });
     
-      // sgMail.send(msg)
-      //   .catch((err) => {
-      //       console.log(err)
-      //   });
+      sgMail.send(msg)
+        .catch((err) => {
+            console.log(err)
+        });
   },
   signInForm(req, res, next) {
     res.render("users/signin");
   },
   signIn(req, res, next){
     passport.authenticate("local")(req, res, function () {
+      console.log(req.user);
         if(!req.user){
           req.flash("notice", "Sign in failed. Please try again.")
           res.redirect("/users/signin");

@@ -18,13 +18,18 @@ module.exports = {
             where: { username }
           }).then(user => {
             if (!user || !authHelper.comparePass(password, user.password)) {
-              return done(null, false, {
+              console.log(user);
+              done(null, false, {
                 message: "Invalid username or password"
               });
+              return;
             }
 
             return done(null, user);
-          });
+          })
+          .catch(err => {
+            done(err);
+          })
         }
       )
     );
