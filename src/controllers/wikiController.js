@@ -1,4 +1,5 @@
 const wikiQueries = require("../db/queries.wikis.js");
+var markdown = require( "markdown" ).markdown;
 
 module.exports = {
     new(req, res, next){
@@ -50,7 +51,8 @@ module.exports = {
             if(err || !wiki){
                 res.redirect(404, '/');
             } else {
-                res.render("wikis/show", { wiki });
+                wiki.body = markdown.toHTML(wiki.body);
+                res.render('wikis/show', { wiki });
             }
         });
     },
@@ -82,6 +84,7 @@ module.exports = {
         });
     },
     update(req, res, next){
+        //const newB
         wikiQueries.updateWiki(req.params.id, req.body, (err, wiki) => {
             if (err || !wiki){
                 res.redirect(404, `/wikis/${req.params.id}/edit`);
