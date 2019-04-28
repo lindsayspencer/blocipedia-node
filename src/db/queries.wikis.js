@@ -62,5 +62,54 @@ module.exports = {
           callback(err);
         });
     });
+  },
+  toPublic(id, callback){
+    return Wiki.findOne({
+      where: { id: id }
+    })
+    .then(wiki => {
+      if (!wiki) {
+        return callback("Wiki not found");
+      }
+      wiki.update({
+        private: false
+      });
+      callback(null, wiki);
+    })
+    .catch(err => {
+      callback(err);
+    })
+  },
+  toPrivate(id, callback){
+    return Wiki.findOne({
+      where: { id: id }
+    })
+    .then(wiki => {
+      if (!wiki) {
+        return callback("Wiki not found");
+      }
+      wiki.update({
+        private: true
+      });
+      callback(null, wiki);
+    })
+    .catch(err => {
+      callback(err);
+    })
+  },
+  downgrade(userId){
+    return Wiki.findAll({
+      where: { userId: userId }
+    })
+    .then((wikis) => {
+      wikis.forEach(wiki => {
+        wiki.update({
+          private: false
+        });
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    })
   }
 };

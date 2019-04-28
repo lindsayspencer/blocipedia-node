@@ -1,5 +1,6 @@
 require("dotenv");
 const userQueries = require("../db/queries.users.js");
+const wikiQueries = require("../db/queries.wikis.js");
 const passport = require("passport");
 // using SendGrid's v3 Node.js Library
 // https://github.com/sendgrid/sendgrid-nodejs
@@ -116,6 +117,7 @@ module.exports = {
       if(user) {
         let action ="downgrade"
         userQueries.toggleRole(user, action);
+        wikiQueries.downgrade(req.params.id);
         //wikiQueries.makePublic(user);
         req.flash("notice", "You are now a Standard Member");
         res.redirect("/");

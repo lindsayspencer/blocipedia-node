@@ -9,9 +9,9 @@
     <main class="container">
       <% include ../static/partials/messages.ejs %>
       <a href="/wikis" class="btn btn-primary">Back</a>
-      <h1>New Public Wiki</h1>
-      <p class='text-muted'>Everyone can view</p>
-      <form action="/wikis/create" method="post">
+      <h1>New Private Wiki</h1>
+      <p class='text-muted'>Only you can view</p>
+      <form action="/wikis/createPrivate" method="post">
         <div class="form-group">
           <label for="title">Wiki title</label>
           <input type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Title">
