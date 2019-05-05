@@ -17,6 +17,9 @@
         private wiki (Only you can view)
       <% } %>
       <br />Last updated <%= wiki.updatedAt %></p>
+      <% if(currentUser && currentUser.id == wiki.userId && wiki.private == true) { %> 
+        <a href="/wikis/<%= wiki.id %>/collaborators" class="btn btn-info">Collaborators</a>
+      <% } %>
       <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning">Edit</a>
         <% if((currentUser && currentUser.role == 1) || (currentUser && currentUser.role == 2)) { 
             if(wiki.private == true) { %>

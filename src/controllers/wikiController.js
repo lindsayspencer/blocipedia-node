@@ -47,10 +47,14 @@ module.exports = {
         });
     },
     show(req, res, next){
+    
         wikiQueries.getWiki(req.params.id, (err, wiki) => {
+            //const collaborators = result["collaborators"];
+            //console.log('controller... ', wiki.id)
             if(err || !wiki){
                 res.redirect(404, '/');
             } else {
+                //wiki = result["wiki"];
                 wiki.body = markdown.toHTML(wiki.body);
                 res.render('wikis/show', { wiki });
             }
