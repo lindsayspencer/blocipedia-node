@@ -1,5 +1,7 @@
 const Collaborator = require('./models').Collaborator;
 const Wiki = require('./models').Wiki;
+const User = require('./models').User;
+const Authorizer = require("../policies/application");
 
 module.exports = {
     createCollaborator(req, callback) {
@@ -46,41 +48,44 @@ module.exports = {
         })
       },
     
-      deleteCollaborator(req, callback) {
-        let userId = req.body.collaborator;
-        let wikiId = req.params.wikiId;
-    
-        const authorized = new Authorizer(req.user, wiki, userId).destroy();
-    
-        if(authorized) {
-          Collaborator.destroy({
-            where: {
-              userId: userId,
-              wikiId: wikiId
-            }
-          })
-          .then((deletedRecordsCount) => {
-            callback(null, deletedRecordsCount);
-          })
-          .catch((err) => {
-            callback(err);
-          });
-        } else {
-          req.flash("notice", "You are not authorized to do that");
-          callback(401);
-        }
+      deleteCollaborator(id, callback) {
+        console.log('got to queries...');
+        return Collaborator.destroy({
+          where: { id: id }
+        })
+        .then((deletedRecordsCount) => {
+          callback(null, deletedRecordsCount);
+        })
+        .catch((err) => {
+          callback(err);
+        })
       },
       getCollaborators(id, callback){
         console.log('getting...')
+        let result = {};
         Wiki.findOne(
           {
             where: { id: id }
-          },
-          { include: [{ model: Collaborator, as: "collaborators" }] }
-        )
+          })
         .then(wiki => {
-          console.log('returning...');
-          callback(null, wiki, wiki.collaborators);
+          if(!wiki){
+            callback(404);
+          } else {
+            result['wiki'] = wiki;
+            // select * from "Collaborators" where wikiId = wiki.id
+            // select username from "Users" where id=userId
+            Collaborator.scope({ method: ['collaboratorsFor', wiki.id]})
+            .findAll()
+            .then(collaborators => {
+              result['collaborators'] = collaborators;
+              console.log('returning...', 'wiki collabs: ', collaborators);
+              callback(null, wiki, collaborators);
+            })
+            .catch(err => {
+              callback(err);
+            })
+          }
+          //callback(null, wiki, wiki.collaborators);
         })
         .catch(err => {
           callback(err);

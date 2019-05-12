@@ -42,6 +42,16 @@ module.exports = (sequelize, DataTypes) => {
   User.prototype.isPremium = function() {
     return this.role === 1
   };
+
+  // User.addScope("usernameFor", (userId) => {
+  //   return {
+  //     include: [{
+  //       model: models.Collaborator
+  //     }],
+  //     where: { id: userId },
+  //     order: [["username", "ASC"]]
+  //   }
+  // });
 };
   return User;
 };

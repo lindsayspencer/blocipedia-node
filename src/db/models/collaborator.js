@@ -25,20 +25,20 @@ module.exports = (sequelize, DataTypes) => {
     Collaborator.addScope('collaboratorsFor', (wikiId) => {
       return {
         include: [{
-          model: models.User
+          model: models.Wiki
         }],
         where: {wikiId: wikiId},
         order: [['createdAt', 'ASC']]
       }
     });
 
-    Collaborator.addScope("userCollaborationsFor", (userId) => {
+    Collaborator.addScope("usernamesFor", (userId) => {
       return {
         include: [{
-          model: models.Wiki
+          model: models.User
         }],
         where: { userId: userId },
-        order: [["createdAt", "ASC"]]
+        order: [["username", "ASC"]]
       }
     });
   };

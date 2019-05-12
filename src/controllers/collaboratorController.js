@@ -8,7 +8,6 @@ module.exports = {
     show(req, res, next){
       console.log('id: ', req.params.wikiId);
       collaboratorQueries.getCollaborators(req.params.wikiId, (err, wiki, collaborators) => {
-        console.log('collaborators: ', collaborators);
         if(err || !req.params.wikiId){
           console.log('ERROR', err);
           res.redirect(404, '/');
@@ -17,48 +16,40 @@ module.exports = {
           res.render("collaborators/show", {wiki, collaborators});
         }
       });
-
-
-
-      // let collaborators;
-      //   wikiQueries.getWiki(req.params.id, (err, wiki) => {
-      //     console.log
-      //       //wiki = result["wiki"];
-      //       collaborators = wiki.collaborators;
-      
-      //       if(err || !wiki) {
-      //         res.redirect(404, "/");
-      //       } else {
-      //         const authorized = new Authorizer(req.user, wiki, collaborators).edit();
-      //         if(authorized) {
-      //           res.render("collaborators/show", {wiki, collaborators});
-      //         } else {
-      //           req.flash("notice", "You are not authorized to do that");
-      //           res.redirect(`/wikis/${req.params.id}`)
-      //         }
-      //       }
-      //     });
     },
     add(req, res, next){
         collaboratorQueries.createCollaborator(req, (err, collaborator) => {
             if (err) {
-                //req.flash("error", err);
                 req.flash("notice", "User already exists")
             }
             res.redirect(`/wikis/${req.params.wikiId}/collaborators`);
         });
     },
-    remove(req, res, next){
-        if(req.user) {
+    destroy(req, res, next){
+      console.log('got to the controller...')
             collaboratorQueries.deleteCollaborator(req, (err, collaborator) => {
               if(err) {
+                console.log('problem..');
                 req.flash("error", err)
               }
               res.redirect(req.headers.referer);
             });
-          } else {
-            req.flash("notice", "You must be signed in to do that");
-            res.redirect(req.headers.referer);
-          }
-    }
+          // } else {
+          //   req.flash("notice", "You must be signed in to do that");
+          //   res.redirect(req.headers.referer);
+          // }
+     },
+     test(req, res, next){
+       console.log('got to test');
+       collaboratorQueries.deleteCollaborator(req.params.id, (err, deletedRecordsCount) => {
+         if(err) {
+           res.redirect(
+             500,
+             `/wikis/${req.params.wikiId}/collaborators`
+           );
+         } else {
+           res.redirect(303, `/wikis/${req.params.wikiId}/collaborators`)
+         }
+       });
+     }
 };
